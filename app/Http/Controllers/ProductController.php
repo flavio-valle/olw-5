@@ -8,11 +8,12 @@ use App\Models\Product;
 use App\Services\ProductServices;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class ProductController extends Controller
 {
 
-    public function __construct(protected ProductServices $ProductServices)
+    public function __construct(protected ProductServices $productServices)
     {
     }
 
@@ -21,7 +22,8 @@ class ProductController extends Controller
      */
     public function index(): JsonResponse
     {
-        $products = $this->ProductServices->list();
+        Gate::authorize('viewAny', Product::class);
+        $products = $this->productServices->list();
 
         return response()->json($products);
     }
@@ -31,7 +33,8 @@ class ProductController extends Controller
      */
     public function store(ProductStoreRequest $request)
     {
-        $product = $this->ProductServices->store($request);
+        Gate::authorize('create', Product::class);
+        $product = $this->productServices->store($request);
 
         return response()->json($product);
     }
@@ -41,15 +44,18 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
+        Gate::authorize('view', $product);
+
         return response()->json($product);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Product $product)
+    public function update(ProductUpdateRequest $request, Product $product)
     {
-        $product = $this->ProductServices->update($request, $product);
+        Gate::authorize('update', $product);
+        $product = $this->productServices->update($request, $product);
 
         return response()->json($product);
     }
@@ -59,8 +65,9 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        $this->ProductServices->destroy($product);
+        Gate::authorize('delete', $product);
+        $this->productServices->destroy($product);
 
-        return response()->json(['message' => 'Product deleted successfully']);
+        return response()->json(['product' => 'deleted']);
     }
 }

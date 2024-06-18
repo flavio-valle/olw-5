@@ -23,8 +23,8 @@ class BrandStoreRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255 | unique:brands',
-            'is_featured' => 'required|boolean',
+            'name' => 'required|string|max:255|unique:brands',
+            'is_featured' => 'nullable|boolean',
         ];
     }
 }

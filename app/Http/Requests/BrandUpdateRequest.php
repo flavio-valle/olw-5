@@ -23,8 +23,8 @@ class BrandUpdateRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'name' => 'required|string|max:255 | unique:brands',
-            'is_featured' => 'required|boolean',
+            'name' => 'required|string|max:255|unique:brands,name,' . $this->brand->id,
+            'is_featured' => 'nullable|boolean',
         ];
     }
 }

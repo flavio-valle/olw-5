@@ -19,6 +19,6 @@ class CategoryFactory extends Factory
         return [
             'name' => fake()->word(),
             'is_featured' => fake()->boolean(),
-         ];
+        ];
     }
 }

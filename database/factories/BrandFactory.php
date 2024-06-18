@@ -17,8 +17,8 @@ class BrandFactory extends Factory
     public function definition(): array
     {
         return [
-           'name' => fake()->word(),
-           'is_featured' => fake()->boolean(),
+            'name' => fake()->word(),
+            'is_featured' => fake()->boolean(),
         ];
     }
 }
